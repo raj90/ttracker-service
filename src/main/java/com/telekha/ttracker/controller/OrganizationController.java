@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.telekha.ttracker.dto.AdminDto;
 import com.telekha.ttracker.dto.OrganizationDto;
+import com.telekha.ttracker.dto.RouteDriverDto;
+import com.telekha.ttracker.dto.RouteDto;
 import com.telekha.ttracker.mapper.AdminMapper;
 import com.telekha.ttracker.mapper.OrganizationMapper;
+import com.telekha.ttracker.mapper.RouteMapper;
 import com.telekha.ttracker.model.Organization;
 import com.telekha.ttracker.service.OrganizationService;
+import com.telekha.ttracker.service.RouteService;
 
 @RestController
 @RequestMapping("/api/organization")
@@ -28,10 +32,16 @@ public class OrganizationController {
 	private OrganizationService organizationService;
 	
 	@Autowired
+	private RouteService routeService;
+	
+	@Autowired
 	private AdminMapper adminMapper;
 	
 	@Autowired
 	private OrganizationMapper organizationMapper;
+	
+	@Autowired
+	private RouteMapper routeMapper;
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public OrganizationDto create(@RequestBody @Valid OrganizationDto organizationDto) {
@@ -73,5 +83,17 @@ public class OrganizationController {
 		return organizationService.getAdmins(organizationId).stream()
 		.map(admin -> adminMapper.toAdminDto(admin))
 		.collect(Collectors.toList());
+	}
+	
+	@RequestMapping(path="/{organizationId}/route",method=RequestMethod.GET)
+	public List<RouteDriverDto> getRoutes(@PathVariable Long organizationId) {
+		return routeService.findByOrganization(organizationId).stream()
+				.map(route -> routeMapper.toRouteDriverDto(route))
+				.collect(Collectors.toList());
+	}
+	
+	@RequestMapping(path="/{organizationId}/route",method=RequestMethod.POST)
+	public RouteDto createRoute(@PathVariable Long organizationId, @RequestBody RouteDto routeDto) {
+		return routeMapper.toRouteDto(routeService.create(organizationId, routeMapper.toRoute(routeDto)));
 	}
 }

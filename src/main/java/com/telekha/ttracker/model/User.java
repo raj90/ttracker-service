@@ -35,7 +35,7 @@ public abstract class User {
 	protected String name;
 	
 	
-	@Column(unique=true)
+	@Column(unique=true, updatable = false)
 	@NotNull
 	@Pattern(regexp="^\\d{10}$")
 	protected String mobileNo;
@@ -44,6 +44,7 @@ public abstract class User {
 	protected String emailId;
 	
 	@NotNull
+	@Column(updatable = false)
 	protected Role role;
 
 	public Long getId() {

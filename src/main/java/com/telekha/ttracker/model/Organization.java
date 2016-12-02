@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Organization {
@@ -27,7 +28,7 @@ public class Organization {
 	
 	@Column(unique=true)
 	@NotNull
-	@Pattern(regexp="^[A-Za-z0-9]{3,50}$")
+	@Size(min=3,max=50)
 	private String name;
 	
 	@NotNull
@@ -38,6 +39,9 @@ public class Organization {
 	
 	@OneToMany(cascade={CascadeType.ALL},mappedBy="organization")
 	private Set<Admin> admins = new HashSet<Admin>();
+	
+	@OneToMany(cascade={CascadeType.ALL},mappedBy="organization")
+	private Set<Route> routes = new HashSet<Route>();
 	
 
 	public Long getId() {
@@ -80,6 +84,17 @@ public class Organization {
 		this.admins = admins;
 	}
 	
+	
+	public Set<Route> getRoutes() {
+		return routes;
+	}
+
+	public void setRoutes(Set<Route> routes) {
+		this.routes = routes;
+	}
+
+
+
 	@Column(insertable = true, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date createTS;
