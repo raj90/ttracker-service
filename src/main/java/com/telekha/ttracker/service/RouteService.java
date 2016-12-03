@@ -73,4 +73,8 @@ public class RouteService {
 		route.setDriver(null);
 		routeRepository.save(route);
 	}
+	
+	public List<Route> findByDriverId(Long driverId) {
+		
+	}
 }
