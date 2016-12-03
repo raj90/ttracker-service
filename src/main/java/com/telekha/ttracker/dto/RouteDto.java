@@ -10,6 +10,8 @@ public class RouteDto extends BaseDto  {
 	private Long organizationId;
 	private String vehicleNo;
 	private String vehicleName;
+	private String pickupTime;
+	private String dropTime;
 	
 	public Long getId() {
 		return id;
@@ -64,6 +66,18 @@ public class RouteDto extends BaseDto  {
 	}
 	public void setVehicleName(String vehicleName) {
 		this.vehicleName = vehicleName;
+	}
+	public String getPickupTime() {
+		return pickupTime;
+	}
+	public void setPickupTime(String pickupTime) {
+		this.pickupTime = pickupTime;
+	}
+	public String getDropTime() {
+		return dropTime;
+	}
+	public void setDropTime(String dropTime) {
+		this.dropTime = dropTime;
 	}
 	
 	

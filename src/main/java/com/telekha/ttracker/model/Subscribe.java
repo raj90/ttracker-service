@@ -1,17 +1,13 @@
 package com.telekha.ttracker.model;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
@@ -20,15 +16,19 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-public class Route {
+public class Subscribe {
 
 	@Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	
+	@ManyToOne
 	@NotNull
-	@Size(min=1,max=50)
-	private String name;
+	private Tracker tracker;
+	
+	@ManyToOne
+	@NotNull
+	private Route route;
 	
 	@Size(min=1,max=50)
 	private String location;
@@ -37,27 +37,7 @@ public class Route {
 	
 	private Double longitude;
 	
-	@Size(min=1,max=50)
-	private String vehicleNo;
-	
-	@Size(min=1,max=50)
-	private String vehicleName;
-	
-	@Size(min=1,max=10)
-	private String pickupTime;
-	
-	@Size(min=1,max=10)
-	private String dropTime;
-	
-	@ManyToOne
-	private Driver driver;
-	
-	@NotNull
-	@ManyToOne
-	private Organization organization;
-	
-	@OneToMany(cascade={CascadeType.ALL},mappedBy="route")
-	private Set<Subscribe> subscriptions = new HashSet<Subscribe>();
+	private Integer notifKm;
 	
 	@Column(insertable = true, updatable = false)
 	@Temporal(TemporalType.TIMESTAMP)
@@ -92,12 +72,20 @@ public class Route {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Tracker getTracker() {
+		return tracker;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setTracker(Tracker tracker) {
+		this.tracker = tracker;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 
 	public String getLocation() {
@@ -124,38 +112,13 @@ public class Route {
 		this.longitude = longitude;
 	}
 
-	public Driver getDriver() {
-		return driver;
+	public Integer getNotifKm() {
+		return notifKm;
 	}
 
-	public void setDriver(Driver driver) {
-		this.driver = driver;
+	public void setNotifKm(Integer notifKm) {
+		this.notifKm = notifKm;
 	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
-	}
-
-	public String getVehicleNo() {
-		return vehicleNo;
-	}
-
-	public void setVehicleNo(String vehicleNo) {
-		this.vehicleNo = vehicleNo;
-	}
-
-	public String getVehicleName() {
-		return vehicleName;
-	}
-
-	public void setVehicleName(String vehicleName) {
-		this.vehicleName = vehicleName;
-	}
-	
 	
 	
 }

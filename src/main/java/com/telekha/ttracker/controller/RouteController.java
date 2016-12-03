@@ -1,5 +1,8 @@
 package com.telekha.ttracker.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.telekha.ttracker.dto.DriverDto;
 import com.telekha.ttracker.dto.RouteDriverDto;
+import com.telekha.ttracker.dto.SubscribeDto;
 import com.telekha.ttracker.mapper.DriverMapper;
 import com.telekha.ttracker.mapper.RouteMapper;
+import com.telekha.ttracker.mapper.SubscribeMapper;
 import com.telekha.ttracker.service.RouteService;
+import com.telekha.ttracker.service.SubscribeService;
 
 @RestController
 @RequestMapping("/api/route")
@@ -21,10 +27,16 @@ public class RouteController {
 	private RouteService routeService;
 	
 	@Autowired
+	private SubscribeService subscribeService;
+	
+	@Autowired
 	private RouteMapper routeMapper;
 	
 	@Autowired
 	private DriverMapper driverMapper;
+	
+	@Autowired
+	private SubscribeMapper subscribeMapper;
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
 	public RouteDriverDto get(@PathVariable Long id) {
@@ -46,5 +58,16 @@ public class RouteController {
 		routeService.updateDriver(routeId, driverMapper.toDriver(driverDto));
 	}
 	
+	@RequestMapping(path="/{routeId}/subscribe", method=RequestMethod.POST)
+	public SubscribeDto subscribe(@PathVariable Long routeId, @RequestBody SubscribeDto subscribeDto) {
+		return subscribeMapper.toSubscribeDto(subscribeService.create(routeId, subscribeMapper.toSubscribe(subscribeDto)));
+	}
+	
+	@RequestMapping(path="/{routeId}/subscribe", method=RequestMethod.GET)
+	public List<SubscribeDto> getSubscribes(@PathVariable Long routeId) {
+		return subscribeService.findByRouteId(routeId).stream()
+				.map(subscribe -> subscribeMapper.toSubscribeDto(subscribe))
+				.collect(Collectors.toList());
+	}
 	
 }
