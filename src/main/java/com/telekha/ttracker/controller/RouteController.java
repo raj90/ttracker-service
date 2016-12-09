@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.telekha.ttracker.dto.DriverDto;
 import com.telekha.ttracker.dto.RouteDriverDto;
+import com.telekha.ttracker.dto.RoutePointDto;
 import com.telekha.ttracker.dto.SubscribeDto;
 import com.telekha.ttracker.mapper.DriverMapper;
 import com.telekha.ttracker.mapper.RouteMapper;
+import com.telekha.ttracker.mapper.RoutePointMapper;
 import com.telekha.ttracker.mapper.SubscribeMapper;
 import com.telekha.ttracker.service.RouteService;
 import com.telekha.ttracker.service.SubscribeService;
@@ -37,6 +39,9 @@ public class RouteController {
 	
 	@Autowired
 	private SubscribeMapper subscribeMapper;
+	
+	@Autowired
+	private RoutePointMapper routePointMapper;
 	
 	@RequestMapping(path="/{id}", method=RequestMethod.GET)
 	public RouteDriverDto get(@PathVariable Long id) {
@@ -67,6 +72,28 @@ public class RouteController {
 	public List<SubscribeDto> getSubscribes(@PathVariable Long routeId) {
 		return subscribeService.findByRouteId(routeId).stream()
 				.map(subscribe -> subscribeMapper.toSubscribeDto(subscribe))
+				.collect(Collectors.toList());
+	}
+	
+	@RequestMapping(path="/{routeId}/subscribe/{subscribeId}", method=RequestMethod.DELETE)
+	public void unsubscribe(@PathVariable Long routeId, @PathVariable Long subscribeId) {
+		subscribeService.delete(subscribeId);
+	}
+	
+	@RequestMapping(path="/{routeId}/routepoint", method=RequestMethod.POST)
+	public RouteDriverDto addRoutePoint(@PathVariable Long routeId, @RequestBody RoutePointDto routePoint) {
+		return routeMapper.toRouteDriverDto(routeService.addRoutePoint(routeId, routePointMapper.toRoutePoint(routePoint)));
+	}
+	
+	@RequestMapping(path="/{routeId}/routepoint/{id}", method=RequestMethod.DELETE)
+	public void deleteRoutePoint(@PathVariable Long routeId, @PathVariable Long id) {
+		routeService.deleteRoutePoint(routeId, id);
+	}
+	
+	@RequestMapping(path="/{routeId}/routepoint", method=RequestMethod.GET)
+	public List<RoutePointDto> getRoutePoint(@PathVariable Long routeId) {
+		return routeService.getRoutePoints(routeId).stream()
+				.map(routePoint -> routePointMapper.toRoutePointDto(routePoint))
 				.collect(Collectors.toList());
 	}
 	

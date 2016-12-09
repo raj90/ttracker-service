@@ -7,6 +7,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.telekha.ttracker.model.Role;
 import com.telekha.ttracker.model.Route;
 import com.telekha.ttracker.model.Subscribe;
 import com.telekha.ttracker.model.Tracker;
@@ -33,6 +34,7 @@ public class SubscribeService {
 		subscribe.setRoute(route);
 		Tracker existingTracker = trackerRepository.findByMobileNo(subscribe.getTracker().getMobileNo());
 		if(existingTracker == null) {
+			subscribe.getTracker().setRole(Role.ROLE_TRACKER);
 			subscribe.setTracker(trackerRepository.save(subscribe.getTracker()));
 		}
 		return subscribeRepository.save(subscribe);
@@ -58,5 +60,8 @@ public class SubscribeService {
 		return subscribeRepository.findByTracker(tracker);
 	}
 
-	
+	public List<Subscribe> findByTrackerMobileNo(String mobileNo) {
+		Tracker tracker = trackerRepository.findByMobileNo(mobileNo);
+		return subscribeRepository.findByTracker(tracker);
+	}
 }

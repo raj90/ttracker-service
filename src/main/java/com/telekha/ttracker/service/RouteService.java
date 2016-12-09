@@ -11,8 +11,10 @@ import com.telekha.ttracker.model.Driver;
 import com.telekha.ttracker.model.Organization;
 import com.telekha.ttracker.model.Role;
 import com.telekha.ttracker.model.Route;
+import com.telekha.ttracker.model.RoutePoint;
 import com.telekha.ttracker.repository.DriverRepository;
 import com.telekha.ttracker.repository.OrganizationRepository;
+import com.telekha.ttracker.repository.RoutePointRepository;
 import com.telekha.ttracker.repository.RouteRepository;
 
 @Service
@@ -26,6 +28,9 @@ public class RouteService {
 	
 	@Autowired
 	private OrganizationRepository organizationRepository;
+	
+	@Autowired
+	private RoutePointRepository routePointRepository;
 	
 	@Secured("ROLE_ADMIN")
 	@Transactional
@@ -74,7 +79,34 @@ public class RouteService {
 		routeRepository.save(route);
 	}
 	
+	@Secured("ROLE_ADMIN")
+	@Transactional
+	public Route addRoutePoint(Long routeId, RoutePoint routePoint) {
+		Route route = routeRepository.findOne(routeId);
+		routePoint.setRoute(route);
+		routePoint = routePointRepository.save(routePoint);
+		route.getRoutePoints().add(routePoint);
+		return route;
+	}
+	
+	public List<RoutePoint> getRoutePoints(Long routeId) {
+		Route route = routeRepository.findOne(routeId);
+		return routePointRepository.findByRoute(route);
+	}
+	
+	@Secured("ROLE_ADMIN")
+	@Transactional
+	public void deleteRoutePoint(Long routeId, Long routePointId) {
+		routePointRepository.delete(routePointId);
+	}
+	
 	public List<Route> findByDriverId(Long driverId) {
-		
+		Driver driver = driverRepository.findOne(driverId);
+		return routeRepository.findByDriver(driver);
+	}
+	
+	public List<Route> findByDriverMobileNo(String mobileNo) {
+		Driver driver = driverRepository.findByMobileNo(mobileNo);
+		return routeRepository.findByDriver(driver);
 	}
 }

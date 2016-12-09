@@ -8,7 +8,7 @@ import com.telekha.ttracker.dto.RouteDriverDto;
 import com.telekha.ttracker.dto.RouteDto;
 import com.telekha.ttracker.model.Route;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses={RoutePointMapper.class})
 public interface RouteMapper {
 
 	@Mappings({
@@ -22,4 +22,5 @@ public interface RouteMapper {
 		@Mapping(source = "route.driver.name", target = "driverName"),
 		@Mapping(source = "route.driver.mobileNo", target = "driverMobileNo")})
 	RouteDriverDto toRouteDriverDto(Route route);
+	
 }

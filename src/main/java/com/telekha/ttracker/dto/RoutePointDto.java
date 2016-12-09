@@ -1,35 +1,32 @@
 package com.telekha.ttracker.dto;
 
-public class RouteDto extends BaseDto  {
+public class RoutePointDto extends BaseDto {
+
 	private Long id;
-	private String name;
 	private String location;
+	private String landmark;
 	private Double latitude;
 	private Double longitude;
-	private Long driverId;
-	private Long organizationId;
-	private String vehicleNo;
-	private String vehicleName;
 	private String pickupTime;
 	private String dropTime;
-	
+	private Long routeId;
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
 	public String getLocation() {
 		return location;
 	}
 	public void setLocation(String location) {
 		this.location = location;
+	}
+	public String getLandmark() {
+		return landmark;
+	}
+	public void setLandmark(String landmark) {
+		this.landmark = landmark;
 	}
 	public Double getLatitude() {
 		return latitude;
@@ -43,30 +40,6 @@ public class RouteDto extends BaseDto  {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	public Long getDriverId() {
-		return driverId;
-	}
-	public void setDriverId(Long driverId) {
-		this.driverId = driverId;
-	}
-	public Long getOrganizationId() {
-		return organizationId;
-	}
-	public void setOrganizationId(Long organizationId) {
-		this.organizationId = organizationId;
-	}
-	public String getVehicleNo() {
-		return vehicleNo;
-	}
-	public void setVehicleNo(String vehicleNo) {
-		this.vehicleNo = vehicleNo;
-	}
-	public String getVehicleName() {
-		return vehicleName;
-	}
-	public void setVehicleName(String vehicleName) {
-		this.vehicleName = vehicleName;
-	}
 	public String getPickupTime() {
 		return pickupTime;
 	}
@@ -79,5 +52,12 @@ public class RouteDto extends BaseDto  {
 	public void setDropTime(String dropTime) {
 		this.dropTime = dropTime;
 	}
+	public Long getRouteId() {
+		return routeId;
+	}
+	public void setRouteId(Long routeId) {
+		this.routeId = routeId;
+	}
+	
 	
 }

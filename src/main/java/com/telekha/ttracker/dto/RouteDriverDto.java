@@ -1,5 +1,7 @@
 package com.telekha.ttracker.dto;
 
+import java.util.Set;
+
 public class RouteDriverDto {
 	private Long id;
 	private String name;
@@ -14,6 +16,7 @@ public class RouteDriverDto {
 	private String vehicleName;
 	private String pickupTime;
 	private String dropTime;
+	private Set<RoutePointDto> routePoints;
 	
 	public Long getId() {
 		return id;
@@ -92,6 +95,12 @@ public class RouteDriverDto {
 	}
 	public void setDropTime(String dropTime) {
 		this.dropTime = dropTime;
+	}
+	public Set<RoutePointDto> getRoutePoints() {
+		return routePoints;
+	}
+	public void setRoutePoints(Set<RoutePointDto> routePoints) {
+		this.routePoints = routePoints;
 	}
 	
 	
